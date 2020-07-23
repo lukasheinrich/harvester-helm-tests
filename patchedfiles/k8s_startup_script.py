@@ -166,7 +166,7 @@ if __name__ == "__main__":
 
     # get the pilot wrapper
     wrapper_path = "/tmp/runpilot2-wrapper.sh"
-    wrapper_url = "https://raw.githubusercontent.com/PanDAWMS/pilot-wrapper/master/runpilot2-wrapper.sh"
+    wrapper_url = "https://raw.githubusercontent.com/lukasheinrich/harvester-helm-tests/master/patchedfiles/runpilot2-wrapper.sh"
     wrapper_string = get_url(wrapper_url)
     with open(wrapper_path, "w") as wrapper_file:
         wrapper_file.write(wrapper_string)
