@@ -237,7 +237,7 @@ function pilot_cmd() {
 function get_piloturl() {
 
   local version=$1
-  local pilotdir=rl='http://pandaserver.cern.ch:25085/cache/pilot'
+  local pilotdir='http://pandaserver.cern.ch:25085/cache/pilot'
 
   if [[ -n ${piloturl} ]]; then
     echo ${piloturl}
