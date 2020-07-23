@@ -1,18 +1,13 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: atlasadc-job-kube-lukas
+  name: atlasadc-job-kube-lukas-laptop
 spec:
   template:
     spec:
       containers:
         - name: atlas-grid-centos7
           image: afortiorama/adcatlas-grid-centos7
-          volumeMounts:
-            - name: atlas-pvc
-              mountPath: /cvmfs/atlas.cern.ch
-            - name: proxy-secret
-              mountPath: /proxy
           imagePullPolicy: Always
           command:
             - "sh"
@@ -26,17 +21,13 @@ spec:
               echo -e "export computingSite=$computingSite\nexport pandaQueueName=$pandaQueueName\nexport proxySecretPath=$proxySecretPath\nexport proxyContent='$proxyContent'\nexport workerID=$workerID\nexport logs_frontend_w=$logs_frontend_w\nexport logs_frontend_r=$logs_frontend_r\nexport resourceType=$resourceType\nexport HARVESTER_WORKER_ID=$HARVESTER_WORKER_ID\nexport HARVESTER_ID=$HARVESTER_ID\nexport PANDA_JSID=$PANDA_JSID\n" > /etc/profile.d/job-setup.sh;
               groupadd -g 1308 atlasprd;
               useradd -u 41000 -g 1308 atlasprd;
-              su - atlasprd -c "cd /home/atlasprd; curl -4 https://raw.githubusercontent.com/HSF/harvester/master/pandaharvester/harvestercloud/k8s_startup_script.py -o /home/atlasprd/k8s_startup_script.py; python /home/atlasprd/k8s_startup_script.py";
+              su - atlasprd -c "cd /home/atlasprd; curl -4 https://raw.githubusercontent.com/lukasheinrich/harvester-helm-tests/master/patchedfiles/k8s_startup_script.py -o /home/atlasprd/k8s_startup_script.py; python /home/atlasprd/k8s_startup_script.py";
+              sleep 600;
           securityContext:
             allowPrivilegeEscalation: true
             privileged: true
       restartPolicy: Never
-
       volumes:
-      - name: atlas-pvc
-        persistentVolumeClaim:
-           claimName: csi-cvmfs-atlas-pvc
-           readOnly: true
       - name: proxy-secret
         secret:
            secretName: proxy-secret
