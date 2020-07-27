@@ -1,0 +1,3 @@
+[submodule "cvmfs-csi"]
+	path = cvmfs-csi
+	url = https://gitlab.cern.ch/cloud-infrastructure/cvmfs-csi.git
