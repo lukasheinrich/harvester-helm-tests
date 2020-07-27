@@ -1,0 +1,43 @@
+minikube start --driver hyperkit
+kubectl create namespace cvmfs
+helm install cvmfs --namespace cvmfs cvmfs-csi/deployments/helm/cvmfs-csi
+kubectl create -f testcvmfs.yml 
+kubectl exec -it web-server -- ls -lrt  /cvmfs/atlas.cern.ch/
+
+kubectl config view --minify --flatten  > sharedfs/kubeconfig.yaml 
+
+
+kind create cluster --config cluster.yaml  --name harvester
+kind get kubeconfig --name harvester > sharedfs/harvester.yml
+
+k create -f deploy.yml
+
+pip install kubernetes
+python
+from kubernetes import client,config
+config.load_kube_config('/sharedfs/kubeconfig.yaml')
+a = client.CoreV1Api()
+a.list_node()
+
+
+
+
+helm install harvester harvester-helm-tests
+
+
+#do logs
+
+cat /var/log/panda/panda-submitter.log
+
+
+#in pod
+
+cat home/atlasprd/atlas_cpwNTUrv/pilotlog.txt
+
+
+#tear down
+
+minikube  delete 
+kind delete cluster --name harvester
+
+
