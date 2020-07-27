@@ -18,6 +18,8 @@ a = client.CoreV1Api()
 print(a.list_node())
 EOF
 
+
+scp lheinric@lxplus.cern.ch:<path to>/aforti_kubecon.cfg .
 helm install harvester harvester-helm
 KUBECONFIG=aforti_kubecon.cfg kubectl get secret proxy-secret -o yaml > secret.yml
 KUBECONFIG=sharedfs/kubeconfig.yaml kubectl create -f secret.yml
@@ -29,9 +31,18 @@ cat /var/log/panda/panda-submitter.log
 
 #in pod
 
-cat home/atlasprd/atlas_cpwNTUrv/pilotlog.txt
+tail -f home/atlasprd/atlas_8/pilotlog.txt
+
+#submit
+
+setupATLAS
+lsetup panda
+voms-proxy-init --voms atlas
+prun --containerImage docker://alpine --exec "echo 'Hello World\!'" --tmpDir /tmp --outDS user.${RUCIO_ACCOUNT}.kubecon.test.`uuidgen` --site ANALY_CERN-EXTENSION_KUBECON --nJobs 5
 
 #tear down
 
 minikube  delete 
 kind delete cluster --name harvester
+
+

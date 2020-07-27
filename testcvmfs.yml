@@ -26,6 +26,7 @@ spec:
   containers:
    - name: test-cvmfs
      image: busybox
+     command: [tail,-f,/dev/null]
      volumeMounts:
        - mountPath: /cvmfs/atlas.cern.ch
          name: atlas-pvc
