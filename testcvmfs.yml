@@ -21,11 +21,11 @@ spec:
 apiVersion: v1
 kind: Pod
 metadata:
-  name: web-server
+  name: test-cvmfs
 spec:
   containers:
-   - name: web-server
-     image: nginx
+   - name: test-cvmfs
+     image: busybox
      volumeMounts:
        - mountPath: /cvmfs/atlas.cern.ch
          name: atlas-pvc
